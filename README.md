@@ -172,6 +172,31 @@ The AI automatically extracts:
 - Salary range & frequency
 - Tech stack
 
+## Tests
+
+The frontend uses **Vitest** for unit tests and **Playwright** for end-to-end tests.
+
+```bash
+# Unit tests (watch mode)
+pnpm test
+
+# Unit tests (single run)
+pnpm test:run
+
+# Unit tests with coverage
+pnpm test:coverage
+
+# End-to-end tests (Playwright)
+pnpm test:e2e
+
+# E2E with UI (debug mode)
+pnpm test:e2e:ui
+```
+
+Test layout:
+- `src/**/*.spec.{ts,tsx}` — Unit tests (Vitest + React Testing Library)
+- `e2e/**/*.spec.ts` — End-to-end tests (Playwright)
+
 ## Available Scripts
 
 | Command | Description |
@@ -180,6 +205,11 @@ The AI automatically extracts:
 | `pnpm build` | Build for production |
 | `pnpm preview` | Preview production build |
 | `pnpm typecheck` | Run TypeScript type checking |
+| `pnpm test` | Run unit tests (watch mode) |
+| `pnpm test:run` | Run unit tests once |
+| `pnpm test:coverage` | Run unit tests with coverage |
+| `pnpm test:e2e` | Run end-to-end tests (Playwright) |
+| `pnpm test:e2e:ui` | Run E2E tests with Playwright UI |
 
 ## Troubleshooting
 
