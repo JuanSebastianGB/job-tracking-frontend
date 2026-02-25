@@ -2,6 +2,10 @@
 
 A React-based job application tracking dashboard for managing your job search process.
 
+[![Build](https://github.com/JuanSebastianGB/job-tracking-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/JuanSebastianGB/job-tracking-frontend)
+[![Frontend](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org)
+
 ## Overview
 
 JobTracker helps you organize, track, and analyze your job applications in one place. Built with React 19, TypeScript, and Tailwind CSS.
@@ -163,8 +167,4 @@ pnpm dev -- --port 5174
 Ensure the backend is running and the proxy in `vite.config.ts` is configured correctly.
 
 ### Database issues
-The app uses SQLite. Ensure `jobs.db` exists in the job-tracker directory or the backend is running with database access.
-
-## Related Projects
-
-- [Backend](./backend/) - FastAPI REST API (recommended for production)
+The app uses PostgreSQL (Neon) via the FastAPI backend. Ensure the backend is running and properly connected to the database.
