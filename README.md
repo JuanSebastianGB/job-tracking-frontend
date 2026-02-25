@@ -2,6 +2,8 @@
 
 A React-based job application tracking dashboard for managing your job search process.
 
+![feat](https://github.com/user-attachments/assets/e37fcf61-54d2-4010-b61c-9d97ceafcca8)
+
 ## Overview
 
 JobTracker helps you organize, track, and analyze your job applications in one place. Built with React 19, TypeScript, and Tailwind CSS.
