@@ -2,6 +2,8 @@
 
 A React-based job application tracking dashboard for managing your job search process.
 
+![feat](https://github.com/user-attachments/assets/e37fcf61-54d2-4010-b61c-9d97ceafcca8)
+
 [![Build](https://github.com/JuanSebastianGB/job-tracking-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/JuanSebastianGB/job-tracking-frontend)
 [![Frontend](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org)
