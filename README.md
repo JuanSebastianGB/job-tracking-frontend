@@ -1,91 +1,121 @@
 # JobTracker - Frontend
 
-A React-based job application tracking dashboard for managing your job search process.
+> A beautiful React-based job application tracking dashboard to manage your entire job search in one place.
 
-![feat](https://github.com/user-attachments/assets/e37fcf61-54d2-4010-b61c-9d97ceafcca8)
+![JobTracker Dashboard](https://github.com/user-attachments/assets/e37fcf61-54d2-4010-b61c-9d97ceafcca8)
 
-[![Build](https://github.com/JuanSebastianGB/job-tracking-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/JuanSebastianGB/job-tracking-frontend)
-[![Frontend](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwind-css)](https://tailwindcss.com)
 
-## Overview
+## What This Does
 
-JobTracker helps you organize, track, and analyze your job applications in one place. Built with React 19, TypeScript, and Tailwind CSS.
+JobTracker helps you organize, track, and analyze your job applications with a beautiful visual dashboard. It uses AI (Google Gemini) to automatically extract job details from text or screenshots, making it effortless to add new applications.
 
 ## Features
 
-- **Dashboard** - Visual overview with application statistics and charts
-- **Job List** - Browse all applications with filtering and sorting
-- **Job Form** - Add new applications with AI-powered job extraction
-- **AI Integration** - Extract job details from text or screenshots using Google Gemini
+| Feature | Description |
+|---------|-------------|
+| 📊 **Dashboard** | Visual overview with application statistics and interactive charts |
+| 📋 **Job List** | Browse all applications with powerful filtering and sorting |
+| ✨ **AI Extraction** | Extract job details from text or screenshots using Google Gemini |
+| 🎯 **Smart Tracking** | Track status (Applied → Interviewing → Offer/Rejected) |
+| 💰 **Salary Tracking** | Record salary ranges with frequency (Hourly/Monthly/Yearly) |
+| 🏠 **Work Model** | Track Remote, Hybrid, or On-site positions |
 
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Framework | React 19 |
-| Language | TypeScript |
-| Build Tool | Vite 6 |
-| Styling | Tailwind CSS 4 |
-| Charts | Recharts |
-| Form Handling | React Hook Form |
-| Animations | Motion |
-| Icons | Lucide React |
-| AI | Google Gemini |
-
-## Prerequisites
-
-- Node.js 18+
-- pnpm (recommended)
-
-## Installation
+## Quick Start
 
 ```bash
+# Clone and navigate to the project
 cd job-tracking-frontend
+
+# Install dependencies
 pnpm install
+
+# Copy environment file
+cp .env.example .env
+
+# Start development server
+pnpm dev
+```
+
+That's it! The app will be running at **http://localhost:5173**
+
+> ⚠️ **Note**: The frontend requires the backend to be running. See [Backend Setup](#backend-setup) below.
+
+## Backend Setup
+
+The frontend needs the FastAPI backend running to store data:
+
+```bash
+# Navigate to backend (in another terminal)
+cd job-tracking-backend
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate it
+source .venv/bin/activate  # macOS/Linux
+# .venv\Scripts\activate   # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the API server
+uvicorn app.main:app --reload --port 3000
 ```
 
 ## Configuration
 
-Create a `.env` file based on `.env.example`:
+Create a `.env` file in `job-tracking-frontend/` with your API keys:
 
-```bash
-cp .env.example .env
+```env
+# Required for AI job extraction
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-Add your Google Gemini API key:
+Get your free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+## Project Structure
 
 ```
-GEMINI_API_KEY=your_api_key_here
+job-tracking-frontend/
+├── src/
+│   ├── components/          # Reusable UI components
+│   │   ├── Dashboard.tsx   # Stats & charts
+│   │   ├── JobList.tsx      # Application list
+│   │   └── JobForm.tsx      # Add/edit form
+│   ├── services/            # API & external services
+│   │   └── geminiService.ts # AI job extraction
+│   ├── hooks/               # Custom React hooks
+│   ├── types/                # TypeScript definitions
+│   ├── App.tsx              # Main application
+│   └── main.tsx             # Entry point
+├── vite.config.ts           # Vite configuration
+└── package.json
 ```
 
-## Running the App
+## Tech Stack
 
-```bash
-# Development (frontend only - requires FastAPI running)
-pnpm dev
-
-# Production build
-pnpm build
-
-# Preview production build
-pnpm preview
-```
-
-### Ports
-
-| Service | Port |
-|---------|------|
-| Frontend (Vite) | 5173 |
-| Backend (FastAPI) | 3000 |
-
-> **Note**: Start FastAPI backend first: `cd ../job-tracking-backend && source .venv/bin/activate && uvicorn app.main:app --reload`
+| Category | Technology | Why |
+|----------|------------|-----|
+| Framework | React 19 | Modern hooks & concurrent features |
+| Language | TypeScript | Type safety & better DX |
+| Build Tool | Vite 6 | Lightning fast HMR |
+| Styling | Tailwind CSS 4 | Utility-first, responsive |
+| Charts | Recharts | Composable React charts |
+| Forms | React Hook Form | Performant form handling |
+| Animations | Motion | Smooth, declarative animations |
+| Icons | Lucide React | Beautiful, consistent icons |
+| AI | Google Gemini | Advanced job extraction |
 
 ## API Integration
 
-The frontend expects a backend API at `/api/jobs`. Configure the proxy in `vite.config.ts`:
+The frontend communicates with the backend via a proxy configured in `vite.config.ts`:
 
 ```typescript
+// vite.config.ts
 export default defineConfig({
   server: {
     proxy: {
@@ -95,25 +125,7 @@ export default defineConfig({
 })
 ```
 
-## Project Structure
-
-```
-job-tracking-frontend/
-├── src/
-│   ├── components/
-│   │   ├── Dashboard.tsx    # Stats and charts
-│   │   ├── JobList.tsx      # Application list
-│   │   └── JobForm.tsx     # Add/edit form
-│   ├── services/
-│   │   └── geminiService.ts # AI extraction
-│   ├── App.tsx              # Main app component
-│   ├── main.tsx             # Entry point
-│   └── index.css            # Global styles
-├── vite.config.ts           # Vite configuration
-└── package.json
-```
-
-## Job Data Model
+### Job Data Model
 
 ```typescript
 interface Job {
@@ -138,21 +150,36 @@ interface Job {
 
 ## AI Job Extraction
 
-Use Google Gemini to extract job details from text or screenshots:
+One of JobTracker's most powerful features is AI-powered job extraction:
 
 ```typescript
 import { parseJobWithAI } from './services/geminiService';
 
-// From text
+// Extract from text
 const job = await parseJobWithAI({
   text: "Senior React Developer at Acme Corp. Remote. $120k-150k/year."
 });
 
-// From file (screenshot)
+// Extract from screenshot
 const job = await parseJobWithAI({
   file: uploadedFile
 });
 ```
+
+The AI automatically extracts:
+- Job title & company
+- Work model (Remote/Hybrid/On-site)
+- Salary range & frequency
+- Tech stack
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server (port 5173) |
+| `pnpm build` | Build for production |
+| `pnpm preview` | Preview production build |
+| `pnpm typecheck` | Run TypeScript type checking |
 
 ## Troubleshooting
 
@@ -161,12 +188,28 @@ const job = await parseJobWithAI({
 # Find process using port 5173
 lsof -i :5173
 
-# Or run on different port
+# Or run on a different port
 pnpm dev -- --port 5174
 ```
 
 ### CORS errors
-Ensure the backend is running and the proxy in `vite.config.ts` is configured correctly.
+- Ensure the backend is running on port 3000
+- Check the proxy configuration in `vite.config.ts`
 
-### Database issues
-The app uses PostgreSQL (Neon) via the FastAPI backend. Ensure the backend is running and properly connected to the database.
+### Database connection issues
+- Verify the backend is running and connected to Neon PostgreSQL
+- Check your `.env` file has the correct `DATABASE_URL`
+
+### AI extraction not working
+- Verify `GEMINI_API_KEY` is set in your `.env` file
+- Check API quota in Google AI Studio
+
+## License
+
+Personal project. Built for learning and personal use.
+
+---
+
+<p align="center">
+  Built with 💙 using React & FastAPI
+</p>
