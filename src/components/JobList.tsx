@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { format, parseISO } from "date-fns";
-import { ExternalLink, Edit2, Trash2, MapPin, DollarSign, Calendar, Building2, Search, FileText, Image as ImageIcon } from "lucide-react";
+import { ExternalLink, Edit2, Trash2, MapPin, DollarSign, Calendar, Building2, Search, FileText, Image as ImageIcon, Download } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../lib/queryClient";
+import { exportJobs, downloadBlob, type ExportFormat } from "../lib/api";
 import { InlineLoader } from "./InlineLoader";
 
 interface Job {
@@ -42,8 +43,23 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
   const [yearFilter, setYearFilter] = useState("All");
   const [monthFilter, setMonthFilter] = useState("All");
   const [deletingJobs, setDeletingJobs] = useState<DeletedJobState>({});
-  
+  const [exportFormat, setExportFormat] = useState<ExportFormat>("csv");
+  const [exporting, setExporting] = useState(false);
+
   const queryClient = useQueryClient();
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      const blob = await exportJobs(exportFormat);
+      const dateStr = new Date().toISOString().split("T")[0];
+      downloadBlob(blob, `saved-jobs-${dateStr}.${exportFormat}`);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Export failed");
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -148,7 +164,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
             <p className="text-neutral-500 text-sm">Manage and track your job search progress</p>
           </div>
           
-          <div className="flex flex-wrap gap-3 w-full md:w-auto">
+          <div className="flex flex-wrap gap-3 w-full md:w-auto items-center">
             <div className="relative flex-1 min-w-[240px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <input 
@@ -158,6 +174,30 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-9 pr-4 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all shadow-sm"
               />
+            </div>
+            <div className="flex gap-2 items-center shrink-0">
+              <select
+                value={exportFormat}
+                onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
+                className="px-3 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm font-medium text-neutral-700 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
+                aria-label="Export format"
+              >
+                <option value="csv">CSV</option>
+                <option value="json">JSON</option>
+              </select>
+              <button
+                type="button"
+                onClick={handleExport}
+                disabled={exporting}
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {exporting ? (
+                  <InlineLoader size="sm" color="neutral" />
+                ) : (
+                  <Download className="w-4 h-4" />
+                )}
+                Export saved
+              </button>
             </div>
           </div>
         </div>
