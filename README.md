@@ -35,7 +35,7 @@ JobTracker helps you organize, track, and analyze your job applications in one p
 ## Installation
 
 ```bash
-cd job-tracker
+cd job-tracking-frontend
 pnpm install
 ```
 
@@ -56,11 +56,8 @@ GEMINI_API_KEY=your_api_key_here
 ## Running the App
 
 ```bash
-# Development (frontend only)
+# Development (frontend only - requires FastAPI running)
 pnpm dev
-
-# Full stack with Express server (legacy)
-pnpm dev:all
 
 # Production build
 pnpm build
@@ -74,7 +71,9 @@ pnpm preview
 | Service | Port |
 |---------|------|
 | Frontend (Vite) | 5173 |
-| Express Server | 3000 |
+| Backend (FastAPI) | 3000 |
+
+> **Note**: Start FastAPI backend first: `cd ../job-tracking-backend && source .venv/bin/activate && uvicorn app.main:app --reload`
 
 ## API Integration
 
@@ -93,7 +92,7 @@ export default defineConfig({
 ## Project Structure
 
 ```
-job-tracker/
+job-tracking-frontend/
 ├── src/
 │   ├── components/
 │   │   ├── Dashboard.tsx    # Stats and charts
@@ -104,7 +103,6 @@ job-tracker/
 │   ├── App.tsx              # Main app component
 │   ├── main.tsx             # Entry point
 │   └── index.css            # Global styles
-├── server.ts                # Express server (legacy)
 ├── vite.config.ts           # Vite configuration
 └── package.json
 ```

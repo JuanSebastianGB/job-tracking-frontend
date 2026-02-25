@@ -152,7 +152,7 @@ React 18.2.0 | TypeScript 5.x | Vite 5.x | CSS Modules
 ## PROJECT STRUCTURE
 
 ```
-job-tracker/
+job-tracking-frontend/
 ├── src/
 │   ├── components/        # Shared UI components
 │   │   ├── JobCard.tsx
@@ -165,7 +165,6 @@ job-tracker/
 │   ├── types/            # TypeScript type definitions
 │   ├── App.tsx           # Main app component
 │   └── main.tsx          # Entry point
-├── server.ts             # Express backend (current)
 ├── index.html
 ├── package.json
 └── vite.config.ts
@@ -181,7 +180,7 @@ pnpm install
 
 # Start development
 pnpm dev          # Frontend on port 5173
-pnpm dev:server   # Backend on port 3000
+# FastAPI backend: cd ../job-tracking-backend && source .venv/bin/activate && uvicorn app.main:app --reload
 
 # Build
 pnpm build
