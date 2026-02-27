@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { Briefcase, LayoutDashboard, PlusCircle, List } from "lucide-react";
+import { Briefcase, LayoutDashboard, PlusCircle, List, Moon, Sun } from "lucide-react";
 import Dashboard from "./components/Dashboard";
 import JobForm from "./components/JobForm";
 import JobList from "./components/JobList";
@@ -9,9 +9,9 @@ import JobList from "./components/JobList";
 
 // Glassmorphism patterns
 const glass = {
-  nav: "backdrop-blur-xl bg-white/70 border-b border-white/20",
-  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl",
-  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30",
+  nav: "backdrop-blur-xl bg-white/70 border-b border-white/20 dark:bg-black/30 dark:border-gray-700/50",
+  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl dark:bg-black/30 dark:border-gray-700/50",
+  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30 dark:bg-gray-800/60 dark:border-gray-700/50",
 };
 
 // Layered shadow classes
@@ -45,6 +45,32 @@ const queryClient = new QueryClient({
 function AppContent() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "list" | "add">("dashboard");
   const [editingJob, setEditingJob] = useState<any | null>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('darkMode');
+      if (saved !== null) return JSON.parse(saved);
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  // Apply dark class on initial mount
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
   const { data: jobs = [], isLoading, refetch } = useQuery({
     queryKey: ['jobs'],
@@ -64,7 +90,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-indigo-50/30 text-neutral-900 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-indigo-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900/30 text-neutral-900 dark:text-white font-sans">
       <nav className={`sticky top-0 z-10 ${glass.nav} ${shadows.card}`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -77,8 +103,8 @@ function AppContent() {
                 onClick={() => setActiveTab("dashboard")}
                 className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
                   activeTab === "dashboard" 
-                    ? "bg-white/80 text-indigo-600 shadow-sm" 
-                    : "text-slate-600 hover:text-indigo-600 hover:bg-white/50"
+                    ? "bg-white/80 text-indigo-600 shadow-sm dark:bg-gray-700/50 dark:text-indigo-400" 
+                    : "text-slate-600 dark:text-neutral-400 hover:text-indigo-600 hover:bg-white/50 dark:hover:bg-gray-700/50"
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 mr-1.5" />
@@ -88,8 +114,8 @@ function AppContent() {
                 onClick={() => setActiveTab("list")}
                 className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
                   activeTab === "list" 
-                    ? "bg-white/80 text-indigo-600 shadow-sm" 
-                    : "text-slate-600 hover:text-indigo-600 hover:bg-white/50"
+                    ? "bg-white/80 text-indigo-600 shadow-sm dark:bg-gray-700/50 dark:text-indigo-400" 
+                    : "text-slate-600 dark:text-neutral-400 hover:text-indigo-600 hover:bg-white/50 dark:hover:bg-gray-700/50"
                 }`}
               >
                 <List className="h-4 w-4 mr-1.5" />
@@ -103,11 +129,18 @@ function AppContent() {
                 className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
                   activeTab === "add" 
                     ? "bg-indigo-500 text-white shadow-md" 
-                    : "text-indigo-600 hover:bg-indigo-50"
+                    : "text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700/50"
                 }`}
               >
                 <PlusCircle className="h-4 w-4 mr-1.5" />
                 <span className="hidden sm:inline">Add Job</span>
+              </button>
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-lg text-slate-600 dark:text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-gray-700/50 ${transitions.default}`}
+                title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </button>
             </div>
           </div>

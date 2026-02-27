@@ -300,9 +300,9 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl rounded-2xl border border-white/20 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)] overflow-hidden">
-      <div className="p-6 border-b border-white/20 bg-white/40 backdrop-blur-sm flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-neutral-800">
+    <div className="max-w-3xl mx-auto bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-gray-700/50 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)] overflow-hidden">
+      <div className="p-6 border-b border-white/20 dark:border-gray-700/50 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-neutral-800 dark:text-white">
           {job ? "Edit Application" : "New Application"}
         </h2>
         
@@ -312,7 +312,7 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
               <button 
                 type="button"
                 onClick={() => setShowTextPaste(!showTextPaste)}
-                className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg font-medium text-sm hover:bg-neutral-200 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-neutral-100 dark:bg-gray-700 text-neutral-700 dark:text-neutral-300 rounded-lg font-medium text-sm hover:bg-neutral-200 dark:hover:bg-gray-600 transition-colors"
               >
                 <FileText className="w-4 h-4" />
                 Paste Text
@@ -327,35 +327,35 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                 />
                 <button 
                   type="button"
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg font-medium text-sm hover:bg-indigo-100 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg font-medium text-sm hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
                 >
                   {isParsing ? <InlineLoader size="sm" color="primary" /> : <Sparkles className="w-4 h-4" />}
                   Auto-fill from Screenshot
                 </button>
               </div>
             </div>
-            <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-wider">
-              Tip: You can also press <kbd className="bg-neutral-200 px-1 rounded">Ctrl+V</kbd> to paste a screenshot
+            <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-medium uppercase tracking-wider">
+              Tip: You can also press <kbd className="bg-neutral-200 dark:bg-gray-700 px-1 rounded">Ctrl+V</kbd> to paste a screenshot
             </p>
           </div>
         )}
       </div>
 
       {showTextPaste && (
-        <div className="p-6 bg-indigo-50/50 border-b border-indigo-100 animate-in fade-in slide-in-from-top-2 duration-200">
-          <label className="block text-sm font-semibold text-indigo-900 mb-2">Paste Job Description</label>
+        <div className="p-6 bg-indigo-50/50 dark:bg-indigo-900/20 border-b border-indigo-100 dark:border-indigo-800 animate-in fade-in slide-in-from-top-2 duration-200">
+          <label className="block text-sm font-semibold text-indigo-900 dark:text-indigo-200 mb-2">Paste Job Description</label>
           <textarea
             value={rawText}
             onChange={(e) => setRawText(e.target.value)}
             rows={5}
-            className="w-full px-3 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white text-sm"
+            className="w-full px-3 py-2 border border-indigo-200 dark:border-indigo-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white dark:bg-gray-800 text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400"
             placeholder="Paste the job description text here..."
           />
           <div className="mt-3 flex justify-end gap-2">
             <button 
               type="button"
               onClick={() => setShowTextPaste(false)}
-              className="px-3 py-1.5 text-sm font-medium text-neutral-600 hover:text-neutral-900"
+              className="px-3 py-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
             >
               Cancel
             </button>
@@ -375,42 +375,42 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
       <form onSubmit={handleSubmit(onSubmit, onError)} className="p-6 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Basic Information</h3>
+            <h3 className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Basic Information</h3>
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Job Title *</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Job Title *</label>
               <input 
                 {...register("title", { required: "Job title is required" })} 
-                className={`w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm ${errors.title ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30'}`}
+                className={`w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 ${errors.title ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30 dark:border-gray-700'}`}
                 placeholder="e.g. Senior Frontend Engineer"
               />
               {errors.title && <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message as string}</p>}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Company *</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Company *</label>
               <input 
                 {...register("company", { required: "Company name is required" })} 
-                className={`w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm ${errors.company ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30'}`}
+                className={`w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 ${errors.company ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30 dark:border-gray-700'}`}
                 placeholder="e.g. Google"
               />
               {errors.company && <p className="mt-1 text-xs text-red-500 font-medium">{errors.company.message as string}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Job URL</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Job URL</label>
               <input 
                 {...register("url")} 
-                className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
+                className="w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                 placeholder="https://..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">Status</label>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Status</label>
                 <select 
                   {...register("status")} 
-                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer"
+                  className="w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer text-neutral-900 dark:text-white"
                 >
                   <option value="Saved">Saved</option>
                   <option value="Applied">Applied</option>
@@ -422,24 +422,24 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">Date Applied</label>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Date Applied</label>
                 <input 
                   type="date"
                   {...register("date_applied")} 
-                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
+                  className="w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white"
                 />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Role Details</h3>
+            <h3 className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Role Details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">Work Model</label>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Work Model</label>
                 <select 
                   {...register("work_model")} 
-                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer"
+                  className="w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer text-neutral-900 dark:text-white"
                 >
                   <option value="Remote">Remote</option>
                   <option value="Hybrid">Hybrid</option>
@@ -448,16 +448,16 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-1.5">Salary</label>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Salary</label>
                 <div className="flex gap-2">
                   <input 
                     {...register("salary_range")} 
-                    className="flex-[2] min-w-[120px] px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
+                    className="flex-[2] min-w-[120px] px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                     placeholder="e.g. $120k"
                   />
                   <select
                     {...register("salary_frequency")}
-                    className="flex-1 min-w-[80px] px-2 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-sm cursor-pointer"
+                    className="flex-1 min-w-[80px] px-2 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-sm cursor-pointer text-neutral-900 dark:text-white"
                   >
                     <option value="Hourly">Hr</option>
                     <option value="Monthly">Mo</option>
@@ -468,28 +468,28 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Tech Stack</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Tech Stack</label>
               <div className="flex gap-2 mb-2">
                 <input 
                   value={techInput}
                   onChange={(e) => setTechInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTech(); } }}
-                  className="flex-1 px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
+                  className="flex-1 px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                   placeholder="Add a skill..."
                 />
                 <button 
                   type="button" 
                   onClick={addTech}
-                  className="px-4 py-2.5 bg-white/60 backdrop-blur-sm text-neutral-700 rounded-lg hover:bg-white/80 transition-all duration-200 shadow-sm border border-white/30"
+                  className="px-4 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-white/80 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm border border-white/30 dark:border-gray-700"
                 >
                   <Plus className="w-5 h-5" />
                 </button>
               </div>
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {techStack.map((tech: string) => (
-                  <span key={tech} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/60 backdrop-blur-sm text-indigo-700 text-xs font-semibold border border-white/30">
+                  <span key={tech} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm text-indigo-700 dark:text-indigo-300 text-xs font-semibold border border-white/30 dark:border-gray-700">
                     {tech}
-                    <button type="button" onClick={() => removeTech(tech)} className="hover:text-indigo-900 transition-colors">
+                    <button type="button" onClick={() => removeTech(tech)} className="hover:text-indigo-900 dark:hover:text-indigo-100 transition-colors">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </span>
@@ -498,23 +498,23 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1.5">Notes</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Notes</label>
               <textarea 
                 {...register("notes")} 
                 rows={3}
-                className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 resize-none shadow-sm text-sm"
+                className="w-full px-3.5 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 resize-none shadow-sm text-sm text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                 placeholder="Mission, vision, why I applied..."
               />
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/20">
-          <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-6">Documents & Attachments</h3>
+        <div className="pt-8 border-t border-white/20 dark:border-gray-700">
+          <h3 className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-6">Documents & Attachments</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-5">
               <div>
-                <label className="block text-xs font-bold text-neutral-500 mb-2 uppercase tracking-tight">Resume (CV)</label>
+                <label className="block text-xs font-bold text-neutral-500 dark:text-neutral-400 mb-2 uppercase tracking-tight">Resume (CV)</label>
                 <div className="relative group">
                   <input
                     type="file"
@@ -522,24 +522,24 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     disabled={!!isUploading}
                   />
-                  <div className={`flex items-center justify-center gap-3 w-full px-4 py-4 border-2 border-dashed border-neutral-200 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 transition-all ${watch("resume_url") ? "bg-indigo-50/20 border-indigo-200" : "bg-white"}`}>
-                    {isUploading === "resume_url" ? <Loader2 className="w-5 h-5 animate-spin text-indigo-500" /> : <UploadCloud className="w-5 h-5 text-neutral-400 group-hover:text-indigo-500" />}
-                    <span className="text-sm font-medium text-neutral-600 group-hover:text-indigo-700">
+                  <div className={`flex items-center justify-center gap-3 w-full px-4 py-4 border-2 border-dashed border-neutral-200 dark:border-gray-700 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 dark:group-hover:bg-indigo-900/20 transition-all ${watch("resume_url") ? "bg-indigo-50/20 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800" : "bg-white dark:bg-gray-800"}`}>
+                    {isUploading === "resume_url" ? <Loader2 className="w-5 h-5 animate-spin text-indigo-500" /> : <UploadCloud className="w-5 h-5 text-neutral-400 dark:text-neutral-500 group-hover:text-indigo-500" />}
+                    <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
                       {watch("resume_url") ? "Resume Uploaded" : "Upload Resume"}
                     </span>
                   </div>
                 </div>
                 {watch("resume_url") && (
-                  <div className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-neutral-50 rounded-lg border border-neutral-100">
+                  <div className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-neutral-50 dark:bg-gray-800 rounded-lg border border-neutral-100 dark:border-gray-700">
                     <FileText className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="text-[10px] text-neutral-500 truncate flex-1">{watch("resume_url")}</span>
-                    <button type="button" onClick={() => setValue("resume_url", "")} className="text-neutral-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
+                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate flex-1">{watch("resume_url")}</span>
+                    <button type="button" onClick={() => setValue("resume_url", "")} className="text-neutral-400 hover:text-red-500 dark:hover:text-red-400"><X className="w-3.5 h-3.5" /></button>
                   </div>
                 )}
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-500 mb-2 uppercase tracking-tight">Cover Letter</label>
+                <label className="block text-xs font-bold text-neutral-500 dark:text-neutral-400 mb-2 uppercase tracking-tight">Cover Letter</label>
                 <div className="relative group">
                   <input
                     type="file"
@@ -547,32 +547,32 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     disabled={!!isUploading}
                   />
-                  <div className={`flex items-center justify-center gap-3 w-full px-4 py-4 border-2 border-dashed border-neutral-200 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 transition-all ${watch("cover_letter_url") ? "bg-indigo-50/20 border-indigo-200" : "bg-white"}`}>
-                    {isUploading === "cover_letter_url" ? <Loader2 className="w-5 h-5 animate-spin text-indigo-500" /> : <UploadCloud className="w-5 h-5 text-neutral-400 group-hover:text-indigo-500" />}
-                    <span className="text-sm font-medium text-neutral-600 group-hover:text-indigo-700">
+                  <div className={`flex items-center justify-center gap-3 w-full px-4 py-4 border-2 border-dashed border-neutral-200 dark:border-gray-700 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 dark:group-hover:bg-indigo-900/20 transition-all ${watch("cover_letter_url") ? "bg-indigo-50/20 dark:bg-indigo-900/20 border-indigo-200 dark:border-indigo-800" : "bg-white dark:bg-gray-800"}`}>
+                    {isUploading === "cover_letter_url" ? <Loader2 className="w-5 h-5 animate-spin text-indigo-500" /> : <UploadCloud className="w-5 h-5 text-neutral-400 dark:text-neutral-500 group-hover:text-indigo-500" />}
+                    <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
                       {watch("cover_letter_url") ? "Cover Letter Uploaded" : "Upload Cover Letter"}
                     </span>
                   </div>
                 </div>
                 {watch("cover_letter_url") && (
-                  <div className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-neutral-50 rounded-lg border border-neutral-100">
+                  <div className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-neutral-50 dark:bg-gray-800 rounded-lg border border-neutral-100 dark:border-gray-700">
                     <FileText className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="text-[10px] text-neutral-500 truncate flex-1">{watch("cover_letter_url")}</span>
-                    <button type="button" onClick={() => setValue("cover_letter_url", "")} className="text-neutral-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
+                    <span className="text-[10px] text-neutral-500 dark:text-neutral-400 truncate flex-1">{watch("cover_letter_url")}</span>
+                    <button type="button" onClick={() => setValue("cover_letter_url", "")} className="text-neutral-400 hover:text-red-500 dark:hover:text-red-400"><X className="w-3.5 h-3.5" /></button>
                   </div>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-neutral-500 mb-2 uppercase tracking-tight">Other Attachments</label>
+              <label className="block text-xs font-bold text-neutral-500 dark:text-neutral-400 mb-2 uppercase tracking-tight">Other Attachments</label>
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2">
                   {attachments.map((file: any, index: number) => (
-                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-white border border-neutral-200 rounded-xl text-xs shadow-sm group">
+                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-800 border border-neutral-200 dark:border-gray-700 rounded-xl text-xs shadow-sm group">
                       <FileText className="w-3.5 h-3.5 text-neutral-400" />
-                      <span className="truncate max-w-[140px] font-medium text-neutral-700">{file.name}</span>
-                      <button type="button" onClick={() => removeAttachment(index)} className="text-neutral-400 hover:text-red-500 transition-colors">
+                      <span className="truncate max-w-[140px] font-medium text-neutral-700 dark:text-neutral-300">{file.name}</span>
+                      <button type="button" onClick={() => removeAttachment(index)} className="text-neutral-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
                         <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -585,11 +585,11 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     disabled={!!isUploading}
                   />
-                  <div className="flex items-center justify-center gap-3 w-full px-4 py-8 border-2 border-dashed border-neutral-200 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 transition-all bg-neutral-50/50">
-                    {isUploading === "attachments" ? <Loader2 className="w-6 h-6 animate-spin text-indigo-500" /> : <Plus className="w-6 h-6 text-neutral-400 group-hover:text-indigo-500" />}
+                  <div className="flex items-center justify-center gap-3 w-full px-4 py-8 border-2 border-dashed border-neutral-200 dark:border-gray-700 rounded-2xl group-hover:border-indigo-300 group-hover:bg-indigo-50/30 dark:group-hover:bg-indigo-900/20 transition-all bg-neutral-50/50 dark:bg-gray-800/50">
+                    {isUploading === "attachments" ? <Loader2 className="w-6 h-6 animate-spin text-indigo-500" /> : <Plus className="w-6 h-6 text-neutral-400 dark:text-neutral-500 group-hover:text-indigo-500" />}
                     <div className="text-left">
-                      <p className="text-sm font-bold text-neutral-700 group-hover:text-indigo-700">Add Attachment</p>
-                      <p className="text-[10px] text-neutral-400 font-medium">PDF, DOCX, Images, etc.</p>
+                      <p className="text-sm font-bold text-neutral-700 dark:text-neutral-300 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">Add Attachment</p>
+                      <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-medium">PDF, DOCX, Images, etc.</p>
                     </div>
                   </div>
                 </div>
@@ -602,7 +602,7 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
           <button 
             type="button" 
             onClick={onCancel}
-            className="px-6 py-3 text-sm font-bold text-neutral-600 bg-white/60 backdrop-blur-sm border border-white/30 rounded-xl hover:bg-white hover:border-white/50 transition-all duration-200 shadow-sm"
+            className="px-6 py-3 text-sm font-bold text-neutral-600 dark:text-neutral-400 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/30 dark:border-gray-700 rounded-xl hover:bg-white dark:hover:bg-gray-700 hover:border-white/50 dark:hover:border-gray-600 transition-all duration-200 shadow-sm"
           >
             Cancel
           </button>

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line, CartesianGrid } from "recharts";
 import { format, parseISO, subDays, isAfter, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, subWeeks, isWithinInterval, differenceInDays } from "date-fns";
@@ -6,9 +6,9 @@ import { TrendingUp, AlertCircle, CheckCircle2, Clock, Calendar, ArrowUpRight, A
 
 // === Design Tokens ===
 const glass = {
-  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl",
-  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30",
-  stat: "bg-gradient-to-br from-white to-white/60 p-6 rounded-2xl border border-white/30",
+  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl dark:bg-black/30 dark:border-gray-700/50",
+  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30 dark:bg-gray-800/60 dark:border-gray-700/50",
+  stat: "bg-gradient-to-br from-white to-white/60 p-6 rounded-2xl border border-white/30 dark:from-gray-800 dark:to-gray-900/60 dark:border-gray-700/50",
 };
 
 const shadows = {
@@ -22,6 +22,16 @@ const transitions = {
 };
 
 export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark'));
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
   const { data: jobs = [] } = useQuery({
     queryKey: ['jobs'],
     queryFn: async () => {
@@ -176,8 +186,8 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between gap-4 items-end">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black text-neutral-900 tracking-tight">Dashboard</h1>
-          <p className="text-neutral-500 text-sm">Your job search momentum and performance</p>
+          <h1 className="text-3xl font-black text-neutral-900 dark:text-white tracking-tight">Dashboard</h1>
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm">Your job search momentum and performance</p>
         </div>
         <div className="px-4 py-2 bg-indigo-50 rounded-2xl border border-indigo-100 flex items-center gap-3">
           <TrendingUp className="w-5 h-5 text-indigo-600" />
@@ -197,38 +207,38 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-            <Calendar className="w-12 h-12 text-neutral-900" />
+            <Calendar className="w-12 h-12 text-neutral-900 dark:text-white" />
           </div>
-          <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Total Tracking</p>
-          <p className="text-4xl font-black text-neutral-900 tracking-tight">{stats.total}</p>
-          <p className="text-[10px] text-neutral-500 mt-2 font-medium">Active applications</p>
+          <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">Total Tracking</p>
+          <p className="text-4xl font-black text-neutral-900 dark:text-white tracking-tight">{stats.total}</p>
+          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-2 font-medium">Active applications</p>
         </div>
         
         <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-            <Clock className="w-12 h-12 text-blue-600" />
+            <Clock className="w-12 h-12 text-blue-600 dark:text-blue-400" />
           </div>
-          <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Interviews</p>
-          <p className="text-4xl font-black text-blue-600 tracking-tight">{stats.interviews}</p>
-          <p className="text-[10px] text-neutral-500 mt-2 font-medium">Stage reached</p>
+          <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">Interviews</p>
+          <p className="text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight">{stats.interviews}</p>
+          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-2 font-medium">Stage reached</p>
         </div>
 
         <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-            <TrendingUp className="w-12 h-12 text-indigo-600" />
+            <TrendingUp className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Success Rate</p>
-          <p className="text-4xl font-black text-indigo-600 tracking-tight">{stats.conversionRate}%</p>
-          <p className="text-[10px] text-neutral-500 mt-2 font-medium">Interview conversion</p>
+          <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">Success Rate</p>
+          <p className="text-4xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">{stats.conversionRate}%</p>
+          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-2 font-medium">Interview conversion</p>
         </div>
 
         <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-            <CheckCircle2 className="w-12 h-12 text-emerald-600" />
+            <CheckCircle2 className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Offers</p>
-          <p className="text-4xl font-black text-emerald-600 tracking-tight">{stats.offers}</p>
-          <p className="text-[10px] text-neutral-500 mt-2 font-medium">Goal achieved</p>
+          <p className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">Offers</p>
+          <p className="text-4xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">{stats.offers}</p>
+          <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-2 font-medium">Goal achieved</p>
         </div>
       </div>
 
@@ -237,36 +247,36 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
           <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-lg font-bold text-neutral-900 tracking-tight">Application Momentum</h3>
-                <p className="text-sm text-neutral-500">Activity over the last 7 days</p>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white tracking-tight">Application Momentum</h3>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">Activity over the last 7 days</p>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1 bg-indigo-50/50 rounded-full border border-indigo-100/50 backdrop-blur-sm">
+              <div className="flex items-center gap-2 px-3 py-1 bg-indigo-50/50 dark:bg-indigo-900/30 rounded-full border border-indigo-100/50 dark:border-indigo-800/50 backdrop-blur-sm">
                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">Live Tracking</span>
+                <span className="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">Live Tracking</span>
               </div>
             </div>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={stats.last7Days}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#374151" : "#f1f5f9"} />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 600}}
+                    tick={{fill: isDark ? "#9ca3af" : "#94a3b8", fontSize: 12, fontWeight: 600}}
                     dy={10}
                   />
                   <YAxis hide />
                   <Tooltip 
-                    contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}}
-                    labelStyle={{fontWeight: 700, color: '#1e293b'}}
+                    contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', backgroundColor: isDark ? '#1f2937' : 'white'}}
+                    labelStyle={{fontWeight: 700, color: isDark ? '#f3f4f6' : '#1e293b'}}
                   />
                   <Line 
                     type="monotone" 
                     dataKey="count" 
                     stroke="#6366f1" 
                     strokeWidth={4} 
-                    dot={{fill: '#6366f1', strokeWidth: 2, r: 4, stroke: '#fff'}}
+                    dot={{fill: '#6366f1', strokeWidth: 2, r: 4, stroke: isDark ? '#1f2937' : '#fff'}}
                     activeDot={{r: 6, strokeWidth: 0}}
                   />
                 </LineChart>
@@ -276,13 +286,13 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
-              <h3 className="text-lg font-bold text-neutral-900 tracking-tight mb-6">Hiring Funnel</h3>
+              <h3 className="text-lg font-bold text-neutral-900 dark:text-white tracking-tight mb-6">Hiring Funnel</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={stats.funnelData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <XAxis type="number" hide />
-                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 12, fontWeight: 600, fill: '#64748b'}} />
-                    <Tooltip cursor={{fill: 'transparent'}} />
+                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fontSize: 12, fontWeight: 600, fill: isDark ? "#9ca3af" : "#64748b"}} />
+                    <Tooltip cursor={{fill: 'transparent'}} contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', backgroundColor: isDark ? '#1f2937' : 'white'}} labelStyle={{fontWeight: 700, color: isDark ? '#f3f4f6' : '#1e293b'}} />
                     <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={32}>
                       {stats.funnelData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
@@ -294,17 +304,17 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
             </div>
 
             <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
-              <h3 className="text-lg font-bold text-neutral-900 tracking-tight mb-6">Top Skills</h3>
+              <h3 className="text-lg font-bold text-neutral-900 dark:text-white tracking-tight mb-6">Top Skills</h3>
               <div className="grid grid-cols-1 gap-3">
                 {stats.topTech.length > 0 ? (
                   stats.topTech.map(tech => (
-                    <div key={tech.name} className="flex items-center justify-between p-3 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 group hover:border-indigo-200 hover:bg-white/70 transition-all duration-300">
-                      <span className="text-sm font-bold text-neutral-700">{tech.name}</span>
-                      <span className="text-xs font-black text-indigo-600 bg-indigo-50/50 backdrop-blur-sm px-2 py-1 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">{tech.count}</span>
+                    <div key={tech.name} className="flex items-center justify-between p-3 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 dark:bg-gray-800/50 dark:border-gray-700/50 group hover:border-indigo-200 hover:bg-white/70 dark:hover:bg-gray-700/50 transition-all duration-300">
+                      <span className="text-sm font-bold text-neutral-700 dark:text-neutral-200">{tech.name}</span>
+                      <span className="text-xs font-black text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-900/30 backdrop-blur-sm px-2 py-1 rounded-lg group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500 dark:group-hover:text-white transition-all duration-300">{tech.count}</span>
                     </div>
                   ))
                 ) : (
-                  <p className="text-neutral-500 text-sm italic">No skills data available yet.</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-sm italic">No skills data available yet.</p>
                 )}
               </div>
             </div>
@@ -314,25 +324,25 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
         <div className="space-y-8">
           <div className={`${glass.card} ${shadows.card} p-8 h-full ${transitions.default} hover:${shadows.elevated}`}>
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-rose-50 rounded-xl">
-                <AlertCircle className="w-5 h-5 text-rose-600" />
+              <div className="p-2 bg-rose-50 dark:bg-rose-900/30 rounded-xl">
+                <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-neutral-900 tracking-tight">Action Required</h3>
-                <p className="text-xs text-neutral-500">Applications needing follow-up</p>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white tracking-tight">Action Required</h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">Applications needing follow-up</p>
               </div>
             </div>
 
             <div className="space-y-4">
               {stats.staleApplications.length > 0 ? (
                 stats.staleApplications.map(job => (
-                  <div key={job.id} className="p-4 bg-white/50 backdrop-blur-sm border border-white/30 rounded-2xl shadow-sm hover:border-rose-200 hover:bg-white/70 transition-all duration-300">
+                  <div key={job.id} className="p-4 bg-white/50 backdrop-blur-sm border border-white/30 dark:bg-gray-800/50 dark:border-gray-700/50 rounded-2xl shadow-sm hover:border-rose-200 dark:hover:border-rose-500/50 hover:bg-white/70 dark:hover:bg-gray-700/50 transition-all duration-300">
                     <div className="flex justify-between items-start mb-2">
-                      <h4 className="text-sm font-bold text-neutral-900 truncate pr-2">{job.title}</h4>
-                      <span className="text-[10px] font-black text-rose-600 bg-rose-50/50 backdrop-blur-sm px-2 py-0.5 rounded-full uppercase tracking-wider">Stale</span>
+                      <h4 className="text-sm font-bold text-neutral-900 dark:text-white truncate pr-2">{job.title}</h4>
+                      <span className="text-[10px] font-black text-rose-600 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/30 backdrop-blur-sm px-2 py-0.5 rounded-full uppercase tracking-wider">Stale</span>
                     </div>
-                    <p className="text-xs text-neutral-500 mb-3">{job.company}</p>
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-400">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-3">{job.company}</p>
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-400 dark:text-neutral-500">
                       <Clock className="w-3 h-3" />
                       Applied {differenceInDays(new Date(), parseISO(job.date_applied))} days ago
                     </div>
@@ -340,17 +350,17 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
                 ))
               ) : (
                 <div className="text-center py-12">
-                  <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                  <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-500 dark:text-emerald-400" />
                   </div>
-                  <p className="text-sm font-bold text-neutral-900 mb-1">All caught up!</p>
-                  <p className="text-xs text-neutral-500">No applications need immediate follow-up.</p>
+                  <p className="text-sm font-bold text-neutral-900 dark:text-white mb-1">All caught up!</p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">No applications need immediate follow-up.</p>
                 </div>
               )}
             </div>
             
             {stats.staleApplications.length > 0 && (
-              <p className="mt-6 text-[10px] text-neutral-400 text-center italic">
+              <p className="mt-6 text-[10px] text-neutral-400 dark:text-neutral-500 text-center italic">
                 Tip: Following up after 2 weeks can increase your chances by 30%.
               </p>
             )}
