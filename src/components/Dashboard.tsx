@@ -4,6 +4,23 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LineCh
 import { format, parseISO, subDays, isAfter, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, subWeeks, isWithinInterval, differenceInDays } from "date-fns";
 import { TrendingUp, AlertCircle, CheckCircle2, Clock, Calendar, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
+// === Design Tokens ===
+const glass = {
+  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl",
+  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30",
+  stat: "bg-gradient-to-br from-white to-white/60 p-6 rounded-2xl border border-white/30",
+};
+
+const shadows = {
+  card: "shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)]",
+  elevated: "shadow-[0_8px_30px_-3px_rgba(0,0,0,0.1)]",
+  hover: "shadow-[0_20px_40px_-4px_rgba(0,0,0,0.12)]",
+};
+
+const transitions = {
+  default: "transition-all duration-300 ease-out",
+};
+
 export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
   const { data: jobs = [] } = useQuery({
     queryKey: ['jobs'],
@@ -92,51 +109,51 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
       <div className="space-y-8 animate-pulse">
         <div className="flex flex-col md:flex-row justify-between gap-4 items-end">
           <div className="space-y-2">
-            <div className="h-9 w-32 bg-neutral-200 rounded-lg" />
-            <div className="h-5 w-64 bg-neutral-100 rounded" />
+            <div className="h-9 w-32 bg-white/50 rounded-lg" />
+            <div className="h-5 w-64 bg-white/30 rounded" />
           </div>
-          <div className="h-12 w-56 bg-neutral-100 rounded-2xl" />
+          <div className="h-12 w-56 bg-white/50 rounded-2xl" />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-white p-6 rounded-2xl border border-neutral-100">
-              <div className="h-3 w-20 bg-neutral-100 rounded mb-3" />
-              <div className="h-10 w-16 bg-neutral-100 rounded" />
+            <div key={i} className={`bg-gradient-to-br from-white to-white/60 p-6 rounded-2xl border border-white/30 ${shadows.card}`}>
+              <div className="h-3 w-20 bg-white/50 rounded mb-3" />
+              <div className="h-10 w-16 bg-white/50 rounded" />
             </div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white p-8 rounded-3xl border border-neutral-100">
-              <div className="h-6 w-48 bg-neutral-100 rounded mb-2" />
-              <div className="h-4 w-32 bg-neutral-50 rounded mb-8" />
-              <div className="h-72 bg-neutral-50 rounded-xl" />
+            <div className={`bg-white/60 backdrop-blur-sm p-8 rounded-3xl border border-white/30`}>
+              <div className="h-6 w-48 bg-white/50 rounded mb-2" />
+              <div className="h-4 w-32 bg-white/30 rounded mb-8" />
+              <div className="h-72 bg-white/30 rounded-xl" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white p-8 rounded-3xl border border-neutral-100">
-                <div className="h-6 w-24 bg-neutral-100 rounded mb-6" />
-                <div className="h-64 bg-neutral-50 rounded-xl" />
+              <div className={`bg-white/60 backdrop-blur-sm p-8 rounded-3xl border border-white/30`}>
+                <div className="h-6 w-24 bg-white/50 rounded mb-6" />
+                <div className="h-64 bg-white/30 rounded-xl" />
               </div>
-              <div className="bg-white p-8 rounded-3xl border border-neutral-100">
-                <div className="h-6 w-20 bg-neutral-100 rounded mb-6" />
+              <div className={`bg-white/60 backdrop-blur-sm p-8 rounded-3xl border border-white/30`}>
+                <div className="h-6 w-20 bg-white/50 rounded mb-6" />
                 <div className="space-y-3">
                   {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="h-12 bg-neutral-50 rounded-2xl" />
+                    <div key={i} className="h-12 bg-white/30 rounded-2xl" />
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className="bg-white p-8 rounded-3xl border border-neutral-100 h-[600px]">
-            <div className="h-6 w-32 bg-neutral-100 rounded mb-2" />
-            <div className="h-4 w-28 bg-neutral-50 rounded mb-8" />
+          <div className={`bg-white/60 backdrop-blur-sm p-8 rounded-3xl border border-white/30 h-[600px]`}>
+            <div className="h-6 w-32 bg-white/50 rounded mb-2" />
+            <div className="h-4 w-28 bg-white/30 rounded mb-8" />
             <div className="space-y-4">
               {[1, 2, 3].map(i => (
-                <div key={i} className="p-4 bg-neutral-50 rounded-2xl">
-                  <div className="h-4 w-3/4 bg-neutral-100 rounded mb-2" />
-                  <div className="h-3 w-1/2 bg-neutral-100 rounded" />
+                <div key={i} className="p-4 bg-white/30 rounded-2xl">
+                  <div className="h-4 w-3/4 bg-white/50 rounded mb-2" />
+                  <div className="h-3 w-1/2 bg-white/50 rounded" />
                 </div>
               ))}
             </div>
@@ -177,55 +194,55 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200/60 relative overflow-hidden group">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
             <Calendar className="w-12 h-12 text-neutral-900" />
           </div>
           <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Total Tracking</p>
-          <p className="text-4xl font-black text-neutral-900">{stats.total}</p>
+          <p className="text-4xl font-black text-neutral-900 tracking-tight">{stats.total}</p>
           <p className="text-[10px] text-neutral-500 mt-2 font-medium">Active applications</p>
         </div>
         
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200/60 relative overflow-hidden group">
+        <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
             <Clock className="w-12 h-12 text-blue-600" />
           </div>
           <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Interviews</p>
-          <p className="text-4xl font-black text-blue-600">{stats.interviews}</p>
+          <p className="text-4xl font-black text-blue-600 tracking-tight">{stats.interviews}</p>
           <p className="text-[10px] text-neutral-500 mt-2 font-medium">Stage reached</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200/60 relative overflow-hidden group">
+        <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
             <TrendingUp className="w-12 h-12 text-indigo-600" />
           </div>
           <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Success Rate</p>
-          <p className="text-4xl font-black text-indigo-600">{stats.conversionRate}%</p>
+          <p className="text-4xl font-black text-indigo-600 tracking-tight">{stats.conversionRate}%</p>
           <p className="text-[10px] text-neutral-500 mt-2 font-medium">Interview conversion</p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200/60 relative overflow-hidden group">
+        <div className={`${glass.stat} ${shadows.card} ${transitions.default} hover:${shadows.hover} hover:-translate-y-1 relative overflow-hidden group`}>
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
             <CheckCircle2 className="w-12 h-12 text-emerald-600" />
           </div>
           <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2">Offers</p>
-          <p className="text-4xl font-black text-emerald-600">{stats.offers}</p>
+          <p className="text-4xl font-black text-emerald-600 tracking-tight">{stats.offers}</p>
           <p className="text-[10px] text-neutral-500 mt-2 font-medium">Goal achieved</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-200/60">
+          <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-lg font-bold text-neutral-900 tracking-tight">Application Momentum</h3>
                 <p className="text-sm text-neutral-500">Activity over the last 7 days</p>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1 bg-neutral-50 rounded-full border border-neutral-100">
+              <div className="flex items-center gap-2 px-3 py-1 bg-indigo-50/50 rounded-full border border-indigo-100/50 backdrop-blur-sm">
                 <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Live Tracking</span>
+                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">Live Tracking</span>
               </div>
             </div>
             <div className="h-72">
@@ -258,7 +275,7 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-200/60">
+            <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
               <h3 className="text-lg font-bold text-neutral-900 tracking-tight mb-6">Hiring Funnel</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -276,14 +293,14 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-200/60">
+            <div className={`${glass.card} ${shadows.card} p-8 ${transitions.default} hover:${shadows.elevated}`}>
               <h3 className="text-lg font-bold text-neutral-900 tracking-tight mb-6">Top Skills</h3>
               <div className="grid grid-cols-1 gap-3">
                 {stats.topTech.length > 0 ? (
                   stats.topTech.map(tech => (
-                    <div key={tech.name} className="flex items-center justify-between p-3 bg-neutral-50 rounded-2xl border border-neutral-100 group hover:border-indigo-200 transition-colors">
+                    <div key={tech.name} className="flex items-center justify-between p-3 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 group hover:border-indigo-200 hover:bg-white/70 transition-all duration-300">
                       <span className="text-sm font-bold text-neutral-700">{tech.name}</span>
-                      <span className="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors">{tech.count}</span>
+                      <span className="text-xs font-black text-indigo-600 bg-indigo-50/50 backdrop-blur-sm px-2 py-1 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">{tech.count}</span>
                     </div>
                   ))
                 ) : (
@@ -295,7 +312,7 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
         </div>
 
         <div className="space-y-8">
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-neutral-200/60 h-full">
+          <div className={`${glass.card} ${shadows.card} p-8 h-full ${transitions.default} hover:${shadows.elevated}`}>
             <div className="flex items-center gap-3 mb-8">
               <div className="p-2 bg-rose-50 rounded-xl">
                 <AlertCircle className="w-5 h-5 text-rose-600" />
@@ -309,10 +326,10 @@ export default function Dashboard({ isLoading }: { isLoading?: boolean }) {
             <div className="space-y-4">
               {stats.staleApplications.length > 0 ? (
                 stats.staleApplications.map(job => (
-                  <div key={job.id} className="p-4 bg-white border border-neutral-100 rounded-2xl shadow-sm hover:border-rose-200 transition-colors">
+                  <div key={job.id} className="p-4 bg-white/50 backdrop-blur-sm border border-white/30 rounded-2xl shadow-sm hover:border-rose-200 hover:bg-white/70 transition-all duration-300">
                     <div className="flex justify-between items-start mb-2">
                       <h4 className="text-sm font-bold text-neutral-900 truncate pr-2">{job.title}</h4>
-                      <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Stale</span>
+                      <span className="text-[10px] font-black text-rose-600 bg-rose-50/50 backdrop-blur-sm px-2 py-0.5 rounded-full uppercase tracking-wider">Stale</span>
                     </div>
                     <p className="text-xs text-neutral-500 mb-3">{job.company}</p>
                     <div className="flex items-center gap-2 text-[10px] font-bold text-neutral-400">

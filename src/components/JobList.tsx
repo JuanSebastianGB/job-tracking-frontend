@@ -29,12 +29,12 @@ interface DeletedJobState {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  "Saved": "bg-neutral-100 text-neutral-700 border-neutral-200",
-  "Applied": "bg-blue-50 text-blue-700 border-blue-200",
-  "Interview": "bg-purple-50 text-purple-700 border-purple-200",
-  "Technical Test": "bg-orange-50 text-orange-700 border-orange-200",
-  "Offer": "bg-green-50 text-green-700 border-green-200",
-  "Rejected": "bg-red-50 text-red-700 border-red-200",
+  "Saved": "bg-white/60 backdrop-blur-sm text-neutral-700 border border-white/30",
+  "Applied": "bg-white/60 backdrop-blur-sm text-blue-700 border border-blue-200/50",
+  "Interview": "bg-white/60 backdrop-blur-sm text-purple-700 border border-purple-200/50",
+  "Technical Test": "bg-white/60 backdrop-blur-sm text-orange-700 border border-orange-200/50",
+  "Offer": "bg-white/60 backdrop-blur-sm text-green-700 border border-green-200/50",
+  "Rejected": "bg-white/60 backdrop-blur-sm text-red-700 border border-red-200/50",
 };
 
 export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], onEdit: (job: any) => void, refreshJobs: () => void }) {
@@ -148,9 +148,18 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
 
   if (jobs.length === 0) {
     return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-semibold text-neutral-700 mb-2">No applications yet</h2>
-        <p className="text-neutral-500">Click "Add Job" to start tracking your applications.</p>
+      <div className="text-center py-20 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/30 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)]">
+        <div className="w-16 h-16 mx-auto mb-4 bg-indigo-50 rounded-full flex items-center justify-center">
+          <FileText className="w-8 h-8 text-indigo-400" />
+        </div>
+        <h2 className="text-2xl font-semibold text-neutral-800 mb-2">No applications yet</h2>
+        <p className="text-neutral-500 mb-6">Click "Add Job" to start tracking your applications.</p>
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('openJobForm'))}
+          className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-lg shadow-indigo-500/20"
+        >
+          Add Your First Job
+        </button>
       </div>
     );
   }
@@ -202,7 +211,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 p-4 bg-neutral-50 rounded-2xl border border-neutral-200/60">
+        <div className="flex flex-wrap items-center gap-3 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/30">
           <div className="flex items-center gap-2 text-xs font-bold text-neutral-400 uppercase tracking-widest mr-2">
             <Search className="w-3.5 h-3.5" />
             Filters
@@ -282,7 +291,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {groupedJobs[year][month].map(job => (
-                      <div key={job.id} className="bg-white rounded-xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                      <div key={job.id} className="bg-white/60 backdrop-blur-sm rounded-2xl border border-white/30 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
                         <div className="p-5 flex-1">
                           <div className="flex justify-between items-start mb-3">
                             <div>
@@ -292,7 +301,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
                                 {job.company}
                               </div>
                             </div>
-                            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${STATUS_COLORS[job.status] || STATUS_COLORS["Saved"]}`}>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold bg-white/60 backdrop-blur-sm border ${STATUS_COLORS[job.status] || STATUS_COLORS["Saved"]}`}>
                               {job.status}
                             </span>
                           </div>
@@ -321,12 +330,12 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
                           {job.tech_stack && job.tech_stack.length > 0 && (
                             <div className="mt-4 flex flex-wrap gap-1.5">
                               {job.tech_stack.slice(0, 4).map((tech: string) => (
-                                <span key={tech} className="px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded text-xs font-medium">
+                                <span key={tech} className="px-2 py-0.5 bg-white/60 backdrop-blur-sm text-neutral-600 rounded text-xs font-medium border border-white/30">
                                   {tech}
                                 </span>
                               ))}
                               {job.tech_stack.length > 4 && (
-                                <span className="px-2 py-0.5 bg-neutral-50 text-neutral-500 rounded text-xs font-medium">
+                                <span className="px-2 py-0.5 bg-white/40 backdrop-blur-sm text-neutral-500 rounded text-xs font-medium">
                                   +{job.tech_stack.length - 4}
                                 </span>
                               )}
@@ -334,7 +343,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
                           )}
                         </div>
                         
-                        <div className="px-5 py-3 bg-neutral-50 border-t border-neutral-100 flex justify-between items-center">
+                        <div className="px-5 py-3 bg-white/40 backdrop-blur-sm border-t border-white/30 flex justify-between items-center">
                           <div className="flex gap-2 items-center">
                             <button 
                               onClick={() => onEdit(job)}
@@ -413,7 +422,7 @@ export default function JobList({ jobs, onEdit, refreshJobs }: { jobs: any[], on
         ))}
 
         {filteredJobs.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-neutral-300">
+          <div className="text-center py-12 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/30 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)]">
             <p className="text-neutral-500">No applications match your current filters.</p>
           </div>
         )}

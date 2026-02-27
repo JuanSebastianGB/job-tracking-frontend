@@ -25,7 +25,7 @@ interface JobFormData {
 
 export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuccess: () => void, onCancel: () => void }) {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, setValue, watch, reset } = useForm({
+  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm({
     defaultValues: job || {
       title: "",
       company: "",
@@ -284,6 +284,10 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
     }
   };
 
+  const onError = () => {
+    alert("Please fill in all required fields.");
+  };
+
   const addTech = () => {
     if (techInput.trim() && !techStack.includes(techInput.trim())) {
       setValue("tech_stack", [...techStack, techInput.trim()]);
@@ -296,8 +300,8 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
-      <div className="p-6 border-b border-neutral-100 bg-neutral-50 flex justify-between items-center">
+    <div className="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl rounded-2xl border border-white/20 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)] overflow-hidden">
+      <div className="p-6 border-b border-white/20 bg-white/40 backdrop-blur-sm flex justify-between items-center">
         <h2 className="text-xl font-semibold text-neutral-800">
           {job ? "Edit Application" : "New Application"}
         </h2>
@@ -368,33 +372,35 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-8">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="p-6 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Basic Information</h3>
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1.5">Job Title *</label>
               <input 
-                {...register("title", { required: true })} 
-                className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                {...register("title", { required: "Job title is required" })} 
+                className={`w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm ${errors.title ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30'}`}
                 placeholder="e.g. Senior Frontend Engineer"
               />
+              {errors.title && <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message as string}</p>}
             </div>
             
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1.5">Company *</label>
               <input 
-                {...register("company", { required: true })} 
-                className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                {...register("company", { required: "Company name is required" })} 
+                className={`w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm ${errors.company ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-white/30'}`}
                 placeholder="e.g. Google"
               />
+              {errors.company && <p className="mt-1 text-xs text-red-500 font-medium">{errors.company.message as string}</p>}
             </div>
 
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-1.5">Job URL</label>
               <input 
                 {...register("url")} 
-                className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
                 placeholder="https://..."
               />
             </div>
@@ -404,7 +410,7 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                 <label className="block text-sm font-medium text-neutral-700 mb-1.5">Status</label>
                 <select 
                   {...register("status")} 
-                  className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-white shadow-sm"
+                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer"
                 >
                   <option value="Saved">Saved</option>
                   <option value="Applied">Applied</option>
@@ -420,7 +426,7 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                 <input 
                   type="date"
                   {...register("date_applied")} 
-                  className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
                 />
               </div>
             </div>
@@ -433,7 +439,7 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                 <label className="block text-sm font-medium text-neutral-700 mb-1.5">Work Model</label>
                 <select 
                   {...register("work_model")} 
-                  className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-white shadow-sm"
+                  className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm cursor-pointer"
                 >
                   <option value="Remote">Remote</option>
                   <option value="Hybrid">Hybrid</option>
@@ -446,12 +452,12 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                 <div className="flex gap-2">
                   <input 
                     {...register("salary_range")} 
-                    className="flex-[2] min-w-[120px] px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                    className="flex-[2] min-w-[120px] px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
                     placeholder="e.g. $120k"
                   />
                   <select
                     {...register("salary_frequency")}
-                    className="flex-1 min-w-[80px] px-2 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all bg-white shadow-sm text-sm"
+                    className="flex-1 min-w-[80px] px-2 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm text-sm cursor-pointer"
                   >
                     <option value="Hourly">Hr</option>
                     <option value="Monthly">Mo</option>
@@ -468,22 +474,22 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
                   value={techInput}
                   onChange={(e) => setTechInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTech(); } }}
-                  className="flex-1 px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all shadow-sm"
+                  className="flex-1 px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 shadow-sm"
                   placeholder="Add a skill..."
                 />
                 <button 
                   type="button" 
                   onClick={addTech}
-                  className="px-4 py-2.5 bg-neutral-100 text-neutral-700 rounded-xl hover:bg-neutral-200 transition-colors shadow-sm"
+                  className="px-4 py-2.5 bg-white/60 backdrop-blur-sm text-neutral-700 rounded-lg hover:bg-white/80 transition-all duration-200 shadow-sm border border-white/30"
                 >
                   <Plus className="w-5 h-5" />
                 </button>
               </div>
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {techStack.map((tech: string) => (
-                  <span key={tech} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold border border-indigo-100">
+                  <span key={tech} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/60 backdrop-blur-sm text-indigo-700 text-xs font-semibold border border-white/30">
                     {tech}
-                    <button type="button" onClick={() => removeTech(tech)} className="hover:text-indigo-900">
+                    <button type="button" onClick={() => removeTech(tech)} className="hover:text-indigo-900 transition-colors">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </span>
@@ -496,14 +502,14 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
               <textarea 
                 {...register("notes")} 
                 rows={3}
-                className="w-full px-3.5 py-2.5 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm text-sm"
+                className="w-full px-3.5 py-2.5 bg-white/60 backdrop-blur-sm border border-white/30 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 resize-none shadow-sm text-sm"
                 placeholder="Mission, vision, why I applied..."
               />
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-neutral-100">
+        <div className="pt-8 border-t border-white/20">
           <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-6">Documents & Attachments</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-5">
@@ -596,14 +602,14 @@ export default function JobForm({ job, onSuccess, onCancel }: { job?: any, onSuc
           <button 
             type="button" 
             onClick={onCancel}
-            className="px-6 py-3 text-sm font-bold text-neutral-600 bg-white border border-neutral-200 rounded-xl hover:bg-neutral-50 hover:border-neutral-300 transition-all shadow-sm"
+            className="px-6 py-3 text-sm font-bold text-neutral-600 bg-white/60 backdrop-blur-sm border border-white/30 rounded-xl hover:bg-white hover:border-white/50 transition-all duration-200 shadow-sm"
           >
             Cancel
           </button>
           <button 
             type="submit" 
             disabled={createMutation.isPending || updateMutation.isPending}
-            className="px-8 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-500/20 transition-all flex items-center gap-2 disabled:opacity-70 disabled:shadow-none"
+            className="px-8 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl hover:from-indigo-600 hover:to-purple-600 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 flex items-center gap-2 disabled:opacity-70 disabled:shadow-none"
           >
             {(createMutation.isPending || updateMutation.isPending) && <InlineLoader size="sm" color="primary" />}
             {job ? "Save Changes" : "Create Application"}

@@ -3,9 +3,10 @@ import React from "react";
 interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg";
   className?: string;
+  glass?: boolean;
 }
 
-export function LoadingSpinner({ size = "md", className = "" }: LoadingSpinnerProps) {
+export function LoadingSpinner({ size = "md", className = "", glass = false }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: "w-5 h-5",
     md: "w-8 h-8",
@@ -19,7 +20,7 @@ export function LoadingSpinner({ size = "md", className = "" }: LoadingSpinnerPr
   };
 
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className={`flex items-center justify-center ${glass ? 'bg-white/60 backdrop-blur-sm rounded-xl px-4 py-3' : ''} ${className}`}>
       <svg
         className={`${sizeClasses[size]} animate-spin-slow`}
         viewBox="0 0 50 50"

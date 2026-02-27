@@ -5,6 +5,34 @@ import Dashboard from "./components/Dashboard";
 import JobForm from "./components/JobForm";
 import JobList from "./components/JobList";
 
+// === Design Tokens (Phase 1: Foundation & Shared Patterns) ===
+
+// Glassmorphism patterns
+const glass = {
+  nav: "backdrop-blur-xl bg-white/70 border-b border-white/20",
+  card: "backdrop-blur-xl bg-white/70 border border-white/20 rounded-2xl",
+  cardStrong: "backdrop-blur-xl bg-white/80 border border-white/30",
+};
+
+// Layered shadow classes
+const shadows = {
+  card: "shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)]",
+  elevated: "shadow-[0_8px_30px_-3px_rgba(0,0,0,0.1)]",
+  hover: "shadow-[0_20px_40px_-4px_rgba(0,0,0,0.12)]",
+};
+
+// Gradient accent patterns
+const gradients = {
+  primary: "from-indigo-500 to-purple-500",
+  accent: "from-blue-500 to-indigo-500",
+};
+
+// Transition utility (applied consistently across all interactive elements)
+const transitions = {
+  default: "transition-all duration-300 ease-out",
+  fast: "transition-all duration-200 ease-out",
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -36,8 +64,8 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
-      <nav className="bg-white border-b border-neutral-200 sticky top-0 z-10">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-indigo-50/30 text-neutral-900 font-sans">
+      <nav className={`sticky top-0 z-10 ${glass.nav} ${shadows.card}`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -47,8 +75,10 @@ function AppContent() {
             <div className="flex space-x-1 sm:space-x-4 items-center">
               <button
                 onClick={() => setActiveTab("dashboard")}
-                className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors ${
-                  activeTab === "dashboard" ? "bg-neutral-100 text-neutral-900" : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
+                  activeTab === "dashboard" 
+                    ? "bg-white/80 text-indigo-600 shadow-sm" 
+                    : "text-slate-600 hover:text-indigo-600 hover:bg-white/50"
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 mr-1.5" />
@@ -56,8 +86,10 @@ function AppContent() {
               </button>
               <button
                 onClick={() => setActiveTab("list")}
-                className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors ${
-                  activeTab === "list" ? "bg-neutral-100 text-neutral-900" : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
+                  activeTab === "list" 
+                    ? "bg-white/80 text-indigo-600 shadow-sm" 
+                    : "text-slate-600 hover:text-indigo-600 hover:bg-white/50"
                 }`}
               >
                 <List className="h-4 w-4 mr-1.5" />
@@ -68,8 +100,10 @@ function AppContent() {
                   setEditingJob(null);
                   setActiveTab("add");
                 }}
-                className={`px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors ${
-                  activeTab === "add" ? "bg-indigo-50 text-indigo-700" : "text-indigo-600 hover:bg-indigo-50"
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${transitions.default} ${
+                  activeTab === "add" 
+                    ? "bg-indigo-500 text-white shadow-md" 
+                    : "text-indigo-600 hover:bg-indigo-50"
                 }`}
               >
                 <PlusCircle className="h-4 w-4 mr-1.5" />

@@ -4,9 +4,10 @@ interface InlineLoaderProps {
   size?: "sm" | "md" | "lg";
   color?: "primary" | "danger" | "neutral";
   className?: string;
+  glass?: boolean;
 }
 
-export function InlineLoader({ size = "sm", color = "primary", className = "" }: InlineLoaderProps) {
+export function InlineLoader({ size = "sm", color = "primary", className = "", glass = false }: InlineLoaderProps) {
   const sizeMap = {
     sm: { width: 14, stroke: 2 },
     md: { width: 18, stroke: 2.5 },
@@ -14,8 +15,8 @@ export function InlineLoader({ size = "sm", color = "primary", className = "" }:
   };
 
   const colorMap = {
-    primary: "text-white",
-    danger: "text-white",
+    primary: "text-indigo-600",
+    danger: "text-red-600",
     neutral: "text-neutral-600",
   };
 
@@ -25,7 +26,7 @@ export function InlineLoader({ size = "sm", color = "primary", className = "" }:
   const r = (width - stroke * 2) / 2 - 2;
 
   return (
-    <span className={`inline-flex items-center justify-center ${colorMap[color]} ${className}`}>
+    <span className={`inline-flex items-center justify-center ${glass ? 'bg-white/60 backdrop-blur-sm rounded-full px-2 py-1' : ''} ${colorMap[color]} ${className}`}>
       <svg
         width={width}
         height={width}
